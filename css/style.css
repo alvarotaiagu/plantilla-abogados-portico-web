@@ -177,6 +177,12 @@ html:not(.js-motion) .cortina,
 .menu-movil nav { display: flex; flex-direction: column; padding: 2rem clamp(1.25rem,4vw,2.5rem); gap: 1.6rem; }
 .menu-movil a { text-decoration: none; font-family: var(--font-display); font-size: 1.4rem; }
 
+@media (min-width: 900px) {
+  .nav-escritorio { display: flex; }
+  .menu-boton { display: none; }
+  .menu-movil { display: none; }
+}
+
 /* ========== 6. Hero / Pórtico ========== */
 .hero { position: relative; height: 100vh; min-height: 620px; overflow: hidden; background: var(--piedra); padding-block: 0; }
 html.js-motion.gsap-listo .hero { height: 190vh; }
@@ -189,7 +195,7 @@ html.js-motion.gsap-listo .hero { height: 190vh; }
 .patio-losas path { stroke: #C4B78F; stroke-width: 1.4; fill: none; }
 
 .hero-columnata { position: relative; z-index: 2; }
-.hero-fila { width: 100%; height: 52vh; display: block; }
+.hero-fila { width: 100%; height: 60vh; display: block; }
 .columna-grupo { transform-origin: center bottom; }
 .columna-base, .columna-plinto { fill: #B7A97E; }
 .columna-fuste { fill: #E7DEC4; }
@@ -217,20 +223,20 @@ html.js-motion.gsap-listo .hero { height: 190vh; }
 .hero-lead { font-size: var(--fs-lead); max-width: 44ch; margin-inline: auto; color: var(--tinta); background: rgba(237,231,216,.72); border-radius: var(--radio); padding: .3em .6em; }
 .hero-cta { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-top: 1.4rem; }
 
-.hero-scroll { position: absolute; z-index: 5; left: 50%; bottom: 1.4rem; transform: translateX(-50%); text-align: center; color: var(--bronce-texto); }
-.hero-scroll span { display: block; width: 1px; height: 34px; background: var(--bronce-texto); margin: 0 auto .6rem; overflow: hidden; }
+.hero-scroll { margin-top: 2rem; text-align: center; color: var(--bronce-texto); }
+.hero-scroll span { display: block; width: 1px; height: 26px; background: var(--bronce-texto); margin: 0 auto .6rem; overflow: hidden; }
 html.js-motion .hero-scroll span::after { content:''; display:block; width:100%; height:100%; background:var(--tinta); animation: bajar 1.8s ease-in-out infinite; }
 @keyframes bajar { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
 .hero-scroll p { font-family: var(--font-mono); font-size: .68rem; text-transform: uppercase; letter-spacing: .18em; margin: 0; }
 
 @media (min-width: 640px) { .hero-texto { bottom: 26%; } }
 
-/* El viewBox de la columnata (1400x320) es muy panorámico: bajo "meet" en un
-   móvil estrecho el renderizado queda diminuto y, anclado a "YMax" dentro de
-   un contenedor alto (52vh), acaba fuera del viewport. Se acorta el
-   contenedor en móvil para que el arte quede pegado al frontón y visible. */
+/* El viewBox de la columnata (1400x525) es panorámico: bajo "meet" en un
+   móvil estrecho el ancho manda sobre el alto, así que el renderizado real
+   queda fijo en ~146px pase lo que pase con la altura del contenedor. Se
+   acorta el contenedor a esa medida para no dejar relleno vacío encima. */
 @media (max-width: 640px) {
-  .hero-fila { height: 24vh; min-height: 120px; }
+  .hero-fila { height: 18vh; min-height: 150px; }
   .hero-patio { height: 34%; }
 }
 

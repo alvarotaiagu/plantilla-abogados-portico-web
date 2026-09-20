@@ -84,6 +84,11 @@
       <stop offset="0" stop-color="#D9CFB2"/>
       <stop offset="1" stop-color="#EDE7D8"/>
     </linearGradient>
+    <radialGradient id="grad-luz" cx="50%" cy="0%" r="75%">
+      <stop offset="0" stop-color="#FFF6E0" stop-opacity=".85"/>
+      <stop offset=".45" stop-color="#F3DFAE" stop-opacity=".3"/>
+      <stop offset="1" stop-color="#F3DFAE" stop-opacity="0"/>
+    </radialGradient>
     <linearGradient id="grad-bronce" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#C79A52"/>
       <stop offset="1" stop-color="#6B4E22"/>
@@ -137,17 +142,20 @@
       <span class="visually-hidden">Abrir menú</span>
     </button>
   </div>
-
-  <div id="menu-movil" class="menu-movil" aria-hidden="true">
-    <nav aria-label="Navegación móvil">
-      <a href="#alas">Áreas de práctica</a>
-      <a href="#directorio">Equipo</a>
-      <a href="#cifras">El despacho</a>
-      <a href="#testimonios">Clientes</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
-  </div>
 </header>
+
+<!-- Fuera de <header>: el header lleva backdrop-filter, que convierte a
+     cualquier descendiente position:fixed en un elemento anclado a la caja
+     del header (~64px) en vez de al viewport, y le deja una altura de ~1px. -->
+<div id="menu-movil" class="menu-movil" aria-hidden="true">
+  <nav aria-label="Navegación móvil">
+    <a href="#alas">Áreas de práctica</a>
+    <a href="#directorio">Equipo</a>
+    <a href="#cifras">El despacho</a>
+    <a href="#testimonios">Clientes</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+</div>
 
 <main id="contenido">
 
@@ -156,6 +164,14 @@
     <div class="hero-pin">
       <svg class="hero-cielo" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
         <rect width="100" height="100" fill="url(#grad-cielo)"/>
+        <g class="hero-rayos" opacity=".55">
+          <polygon points="50,-5 38,110 44,110" fill="url(#grad-luz)"/>
+          <polygon points="50,-5 50,110 56,110" fill="url(#grad-luz)"/>
+          <polygon points="50,-5 62,110 68,110" fill="url(#grad-luz)"/>
+          <polygon points="50,-5 26,110 32,110" fill="url(#grad-luz)"/>
+          <polygon points="50,-5 74,110 80,110" fill="url(#grad-luz)"/>
+        </g>
+        <rect width="100" height="100" fill="url(#grad-luz)"/>
       </svg>
 
       <svg class="hero-patio" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
@@ -168,13 +184,13 @@
       </svg>
 
       <div class="hero-columnata" id="columnata" role="img" aria-label="Fachada de un pórtico clásico con seis columnas y un arquitrabe">
-        <svg class="hero-fila" viewBox="0 0 1400 320" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
-          <g class="columna-grupo" data-col="0"><use href="#columna" x="20" y="40" width="130" height="280"/></g>
-          <g class="columna-grupo" data-col="1"><use href="#columna" x="240" y="40" width="130" height="280"/></g>
-          <g class="columna-grupo" data-col="2"><use href="#columna" x="460" y="40" width="130" height="280"/></g>
-          <g class="columna-grupo" data-col="3"><use href="#columna" x="680" y="40" width="130" height="280"/></g>
-          <g class="columna-grupo" data-col="4"><use href="#columna" x="900" y="40" width="130" height="280"/></g>
-          <g class="columna-grupo" data-col="5"><use href="#columna" x="1120" y="40" width="130" height="280"/></g>
+        <svg class="hero-fila" viewBox="0 0 1400 525" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
+          <g class="columna-grupo" data-col="0"><use href="#columna" x="20" y="40" width="130" height="485"/></g>
+          <g class="columna-grupo" data-col="1"><use href="#columna" x="240" y="40" width="130" height="485"/></g>
+          <g class="columna-grupo" data-col="2"><use href="#columna" x="460" y="40" width="130" height="485"/></g>
+          <g class="columna-grupo" data-col="3"><use href="#columna" x="680" y="40" width="130" height="485"/></g>
+          <g class="columna-grupo" data-col="4"><use href="#columna" x="900" y="40" width="130" height="485"/></g>
+          <g class="columna-grupo" data-col="5"><use href="#columna" x="1120" y="40" width="130" height="485"/></g>
         </svg>
       </div>
 
@@ -196,11 +212,10 @@
           <a class="btn btn-bronce boton-magnetico" href="#contacto" data-cursor="enlace">Concertar una consulta</a>
           <a class="btn btn-linea boton-magnetico" href="#alas" data-cursor="enlace">Ver áreas de práctica</a>
         </div>
-      </div>
-
-      <div class="hero-scroll" aria-hidden="true">
-        <span></span>
-        <p>Desciende el pórtico</p>
+        <div class="hero-scroll" aria-hidden="true">
+          <span></span>
+          <p>Desciende el pórtico</p>
+        </div>
       </div>
     </div>
   </section>
