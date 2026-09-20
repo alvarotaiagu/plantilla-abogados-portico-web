@@ -427,9 +427,15 @@
     }
 
     var distancia = calcularDistancia();
+    var cabeceraSitio = document.querySelector('.cabecera');
+    // "top top" ancla el pin con la caja pegada a y=0, justo donde vive la
+    // cabecera fija del sitio (position:fixed, z-index por encima): el
+    // título de "alas" quedaba grabado ahí debajo, tapado y difuminado,
+    // durante todo el scrub. Se ancla en su lugar a la altura de esa
+    // cabecera para que el pin quede siempre por debajo de ella.
     ScrollTrigger.create({
       trigger: pin,
-      start: 'top top',
+      start: 'top ' + (cabeceraSitio ? cabeceraSitio.offsetHeight : 64) + 'px',
       end: function () { return '+=' + (distancia + window.innerHeight * 0.6); },
       pin: true,
       scrub: 0.6,

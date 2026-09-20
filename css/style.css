@@ -358,7 +358,11 @@ html.js-motion.gsap-listo .placa.visible .placa-superficie { clip-path: inset(0 
    fija arriba (flex: 0 0 auto) y la pista solo ocupa el resto de la caja
    (flex: 1 1 auto), así que el centrado vertical actúa sobre ese resto, no
    sobre los 100vh enteros. */
-.alas-pin.pin-activo { height: 100vh; }
+/* 100vh menos la cabecera fija del sitio (~64px): el pin ahora ancla con la
+   caja ya por debajo de esa cabecera (ver comentario en initAlas, main.js),
+   así que su alto tiene que caber en lo que queda del viewport, no en el
+   viewport entero, o el borde inferior de la caja queda fuera de pantalla. */
+.alas-pin.pin-activo { height: calc(100vh - 64px); }
 .alas-pin.pin-activo .alas-cabecera { padding-bottom: clamp(1.4rem, 3vw, 2.2rem); }
 .alas-pin.pin-activo .alas-pista {
   flex: 1 1 auto; min-height: 0; position: relative; align-items: center;
