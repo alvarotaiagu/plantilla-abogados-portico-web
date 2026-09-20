@@ -37,7 +37,14 @@
    se renderizan con su tamaño por defecto (300x150) y empujan todo el
    contenido hacia abajo en el flujo del documento. */
 .defs-compartidas { position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none; }
-html { scroll-behavior: auto; overflow: clip; }
+/* SOLO el eje horizontal: "overflow: clip" (los dos ejes) deja al <html>
+   sin caja de scroll ninguna cuando Lenis no está disponible (CDN caído,
+   bloqueado por el navegador) porque "clip" -a diferencia de "hidden"- no
+   admite scroll ni siquiera por JS/scrollTop. Sin Lenis compensando con su
+   propio scroll, la página entera queda clavada arriba: viola "sin GSAP
+   tampoco se rompe" del pliego. overflow-x: clip solo evita que un elemento
+   más ancho que la pantalla (la pista de "alas") ensanche el viewport. */
+html { scroll-behavior: auto; overflow-x: clip; }
 html, body { background: var(--piedra); }
 body {
   margin: 0;
