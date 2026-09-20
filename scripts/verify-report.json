@@ -1,0 +1,76 @@
+{
+  "consoleErrors": [
+    "[sin-gsap] Failed to load resource: net::ERR_FAILED",
+    "[sin-gsap] Failed to load resource: net::ERR_FAILED",
+    "[sin-gsap] Failed to load resource: net::ERR_FAILED"
+  ],
+  "peticionesFallidas": [
+    "[sin-gsap] https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js — net::ERR_FAILED",
+    "[sin-gsap] https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js — net::ERR_FAILED",
+    "[sin-gsap] https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js — net::ERR_FAILED"
+  ],
+  "notas": [],
+  "comprobaciones": {
+    "cortina-display-escritorio": "none",
+    "clases-escritorio": {
+      "jsMotion": true,
+      "gsapListo": true
+    },
+    "cifras-escritorio": [
+      "32",
+      "480",
+      "14",
+      "120"
+    ],
+    "mapa-bajo-clic": {
+      "iframesAntes": 0,
+      "iframesDespues": 1,
+      "srcMapa": "https://www.google.com/maps?q=Valladares%20Mendoza%20Abogados%2C%20Avenida%20da%20Concordia%2018%2C%20Vigo&output=embed"
+    },
+    "alas": {
+      "pinActivo": true,
+      "tabindex": null
+    },
+    "cortina-display-movil": "none",
+    "clases-movil": {
+      "jsMotion": true,
+      "gsapListo": true
+    },
+    "cifras-movil": [
+      "32",
+      "480",
+      "14",
+      "120"
+    ],
+    "menu-movil-abre": {
+      "expandido": "true",
+      "abierto": true
+    },
+    "menu-movil-cierra": "false",
+    "cookie-banner": {
+      "visibleAntes": true,
+      "hiddenDespues": "",
+      "guardado": "1"
+    },
+    "sin-gsap": {
+      "jsMotion": true,
+      "gsapListo": false,
+      "cortinaDisplay": "none"
+    },
+    "reduced-motion": {
+      "jsMotion": false,
+      "cortinaDisplay": "none"
+    },
+    "reduced-motion-cifras": [
+      "32",
+      "480",
+      "14",
+      "120"
+    ],
+    "marcadores-pendientes": []
+  },
+  "resumen": {
+    "erroresConsola": 3,
+    "peticionesFallidas": 3
+  }
+}
