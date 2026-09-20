@@ -315,17 +315,39 @@
     actualizarTabindex();
     window.addEventListener('resize', actualizarTabindex);
 
-    if (!gsapListo) return; // queda como carrusel horizontal manual, accesible
+    // Sin GSAP, o con movimiento reducido: queda como carrusel horizontal
+    // manual con scroll-snap, accesible por teclado y por gesto. El pin +
+    // scrub es movimiento vestibular de verdad (toda la pantalla se ancla y
+    // se desplaza con el scroll), así que se apaga con
+    // prefers-reduced-motion igual que el paralaje del hero, no solo el
+    // GSAP genérico de reveals.
+    if (!gsapListo || !motionOn) return;
 
     pin.classList.add('pin-activo');
     actualizarTabindex();
 
+    var alasEls = pista.querySelectorAll('.ala');
+
     function calcularDistancia() {
-      var alas = pista.querySelectorAll('.ala');
       var total = 0;
-      alas.forEach(function (ala) { total += ala.getBoundingClientRect().width; });
-      total += (alas.length - 1) * 22.4;
+      alasEls.forEach(function (ala) { total += ala.getBoundingClientRect().width; });
+      total += (alasEls.length - 1) * 22.4;
       return Math.max(total - pin.clientWidth, 0);
+    }
+
+    // Efecto de profundidad: el ala más cercana al centro del pin (la que
+    // se está "recorriendo" en ese instante) queda a tamaño completo; las
+    // que quedan atrás o por llegar se encogen y atenúan, como al cruzar el
+    // umbral de una sala hacia la siguiente.
+    function actualizarProfundidad() {
+      var centro = pin.getBoundingClientRect().left + pin.clientWidth / 2;
+      alasEls.forEach(function (ala) {
+        var r = ala.getBoundingClientRect();
+        var cx = r.left + r.width / 2;
+        var t = Math.min(Math.abs(cx - centro) / (pin.clientWidth * 0.55), 1);
+        ala.style.transform = 'scale(' + (1 - t * 0.12).toFixed(3) + ')';
+        ala.style.opacity = (1 - t * 0.4).toFixed(3);
+      });
     }
 
     var distancia = calcularDistancia();
@@ -336,12 +358,14 @@
       pin: true,
       scrub: 0.6,
       invalidateOnRefresh: true,
-      onRefresh: function () { distancia = calcularDistancia(); },
+      onRefresh: function () { distancia = calcularDistancia(); actualizarProfundidad(); },
       onUpdate: function (self) {
         gsap.set(pista, { x: -distancia * self.progress });
+        actualizarProfundidad();
         if (barra) barra.style.width = (self.progress * 100) + '%';
       }
     });
+    actualizarProfundidad();
   })();
 
   /* ---------------- Refresco tras fuentes/imagenes ---------------- */
