@@ -301,6 +301,38 @@
     peldanos.forEach(function (p) { ioPaso.observe(p); });
   })();
 
+  /* ---------------- Testimonios: sello que se traza al entrar ---------------- */
+  (function initSellos() {
+    var testimonios = document.querySelectorAll('.testimonio');
+    if (!testimonios.length) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    testimonios.forEach(function (t, i) {
+      t.style.transitionDelay = ((i % 3) * 90) + 'ms';
+      io.observe(t);
+    });
+  })();
+
+  /* ---------------- Tarjetas con inclinación 3D siguiendo el puntero ---------------- */
+  (function initTarjetas3d() {
+    if (!motionOn || !window.matchMedia('(pointer: fine)').matches) return;
+    document.querySelectorAll('.tarjeta-3d').forEach(function (card) {
+      card.addEventListener('mousemove', function (e) {
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5;
+        var py = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = 'perspective(900px) rotateX(' + (py * -6).toFixed(2) + 'deg) rotateY(' + (px * 8).toFixed(2) + 'deg) translateY(-4px)';
+      });
+      card.addEventListener('mouseleave', function () { card.style.transform = ''; });
+    });
+  })();
+
   /* ---------------- Directorio: placas de bronce que se graban ---------------- */
   (function initPlacas() {
     if (!gsapListo) return;
