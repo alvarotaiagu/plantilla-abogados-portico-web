@@ -1,0 +1,384 @@
+/* Valladares Mendoza Abogados — plantilla «Pórtico». Sitio de demostración. */
+
+/* ========== 1. Base y tokens ========== */
+:root {
+  --piedra: #EDE7D8;
+  --panel: #E3DBC6;
+  --hueso: #F6F2E6;
+  --tinta: #241F18;
+  --fachada: #171310;
+  --muted: #5B5346;
+  --muted-oscuro: #C9BFA9;
+  --bronce: #8C6A34;
+  --bronce-texto: #6B4E22;
+  --bronce-claro: #C79A52;
+  --verdin: #4C7267;
+  --verdin-texto: #3C5B52;
+  --verdin-claro: #8FBBAC;
+  --borde: #D3C9AC;
+  --borde-oscuro: #3A332A;
+
+  --font-display: 'Cinzel', serif;
+  --font-body: 'Piazzolla', serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --fs-h1: clamp(2.4rem, 4.2vw + 1rem, 5.2rem);
+  --fs-h2: clamp(1.9rem, 2.6vw + 1rem, 3.1rem);
+  --fs-h3: clamp(1.2rem, 1vw + 1rem, 1.55rem);
+  --fs-lead: clamp(1.05rem, .5vw + .95rem, 1.3rem);
+
+  --radio: 3px;
+  --transicion: .5s cubic-bezier(.16,.84,.44,1);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: auto; overflow: clip; }
+html, body { background: var(--piedra); }
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--tinta);
+  line-height: 1.55;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.14; margin: 0; letter-spacing: .01em; }
+p { margin: 0 0 1em; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+button { font: inherit; cursor: pointer; background: none; border: 0; color: inherit; }
+.container { max-width: 1220px; margin-inline: auto; padding-inline: clamp(1.25rem, 4vw, 2.5rem); }
+section { padding-block: clamp(4rem, 9vw, 8rem); }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+.salto-contenido {
+  position: absolute; left: 1rem; top: -4rem; z-index: 500;
+  background: var(--tinta); color: var(--hueso); padding: .8em 1.2em;
+  border-radius: var(--radio); transition: top .3s;
+}
+.salto-contenido:focus { top: 1rem; }
+
+:focus-visible { outline: 3px solid var(--verdin-texto); outline-offset: 3px; }
+
+/* ========== 2. Utilidades tipográficas ========== */
+.etiqueta {
+  font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .22em;
+  font-size: .78rem; color: var(--bronce-texto); margin: 0 0 .9em;
+}
+.etiqueta-clara { color: var(--bronce-claro); }
+.titular { font-size: var(--fs-h2); color: var(--tinta); max-width: 20ch; }
+.titular-claro { color: var(--hueso); }
+.lead { font-size: var(--fs-lead); color: var(--muted); max-width: 46ch; }
+.lead-claro { color: var(--muted-oscuro); }
+.lead-ancho { max-width: 60ch; }
+
+/* char-reveal: la palabra debe ser inline-block + nowrap, o se parte.
+   El estado "oculto" lo pone y lo retira el propio GSAP (gsap.set/gsap.to),
+   nunca CSS: así no hay estado vacío si el CDN de GSAP falla. */
+.palabra { display: inline-block; white-space: nowrap; overflow: hidden; vertical-align: top; }
+.palabra-inner { display: inline-block; will-change: transform; }
+
+.boton-magnetico { display: inline-block; transition: transform .35s var(--transicion); }
+
+.btn {
+  display: inline-flex; align-items: center; gap: .6em; font-family: var(--font-mono);
+  text-transform: uppercase; letter-spacing: .12em; font-size: .82rem; font-weight: 600;
+  padding: 1.05em 1.7em; border-radius: var(--radio); text-decoration: none;
+  border: 1.5px solid transparent; transition: transform .35s var(--transicion), background .3s, color .3s, border-color .3s;
+}
+.btn-bronce { background: var(--bronce-texto); color: var(--hueso); }
+.btn-bronce:hover { background: var(--tinta); }
+.btn-linea { border-color: var(--bronce-texto); color: var(--bronce-texto); }
+.btn-linea:hover { background: var(--bronce-texto); color: var(--hueso); }
+.btn-pequeno { padding: .7em 1.2em; font-size: .74rem; }
+
+/* ========== 3. Cursor personalizado ========== */
+.cursor {
+  position: fixed; z-index: 900; top: 0; left: 0; width: 26px; height: 26px;
+  margin: -13px 0 0 -13px; border: 1.5px solid var(--bronce-texto); border-radius: 50%;
+  pointer-events: none; opacity: 0; transition: opacity .3s, width .3s, height .3s, margin .3s, background .3s, border-color .3s;
+  transform: translate3d(-100px,-100px,0); will-change: transform;
+}
+html.cursor-activo .cursor { opacity: 1; }
+.cursor.cursor-enlace {
+  width: 52px; height: 52px; margin: -26px 0 0 -26px;
+  background: rgba(140,106,52,.14); border-color: var(--bronce);
+}
+html.cursor-activo, html.cursor-activo a, html.cursor-activo button { cursor: none; }
+
+/* ========== 4. Cortina de entrada ========== */
+.cortina {
+  position: fixed; inset: 0; z-index: 1000; display: flex;
+  pointer-events: none;
+}
+.cortina-hoja {
+  position: absolute; top: 0; bottom: 0; width: 51%; background: var(--fachada);
+  background-image: linear-gradient(120deg, #171310 0%, #241C13 45%, #171310 100%);
+  box-shadow: inset 0 0 120px rgba(0,0,0,.5);
+}
+.cortina-izq { left: 0; border-right: 3px solid var(--bronce-claro); border-radius: 0 0 60px 0; }
+.cortina-der { right: 0; border-left: 3px solid var(--bronce-claro); border-radius: 0 0 0 60px; }
+.cortina-relieve {
+  position: absolute; inset: 6%; border: 1.5px solid rgba(199,154,82,.35); border-radius: 4px;
+}
+.cortina-marca {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  gap: .15em; font-family: var(--font-display); color: var(--bronce-claro);
+  font-size: clamp(2.5rem, 8vw, 6rem); letter-spacing: .08em;
+}
+.cortina-inicial { opacity: 0; transform: translateY(14px); }
+
+html:not(.js-motion) .cortina,
+.cortina.oculta { display: none !important; }
+
+/* ========== 5. Cabecera ========== */
+.cabecera {
+  position: fixed; inset-inline: 0; top: 0; z-index: 300;
+  background: rgba(237,231,216,.88); backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--borde);
+}
+.cabecera-fila { display: flex; align-items: center; justify-content: space-between; padding-block: .85rem; }
+.marca { display: flex; align-items: center; gap: .7em; text-decoration: none; color: var(--tinta); }
+.marca-icono { width: 38px; height: 38px; color: var(--bronce-texto); }
+.marca-texto { display: flex; flex-direction: column; line-height: 1.2; }
+.marca-nombre { font-family: var(--font-display); font-size: 1.02rem; letter-spacing: .02em; }
+.marca-lugar { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .1em; color: var(--muted); text-transform: uppercase; }
+
+.nav-escritorio { display: none; align-items: center; gap: 2rem; font-family: var(--font-mono); font-size: .82rem; letter-spacing: .05em; }
+.nav-escritorio a:not(.btn) { text-decoration: none; position: relative; padding-bottom: 2px; }
+.nav-escritorio a:not(.btn)::after {
+  content: ''; position: absolute; left: 0; right: 100%; bottom: 0; height: 1.5px;
+  background: var(--bronce-texto); transition: right .35s var(--transicion);
+}
+.nav-escritorio a:not(.btn):hover::after { right: 0; }
+
+.menu-boton { display: flex; flex-direction: column; gap: 5px; padding: 10px; }
+.menu-boton-linea { width: 22px; height: 2px; background: var(--tinta); transition: transform .3s, opacity .3s; }
+.menu-boton[aria-expanded="true"] .menu-boton-linea:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-boton[aria-expanded="true"] .menu-boton-linea:nth-child(2) { opacity: 0; }
+.menu-boton[aria-expanded="true"] .menu-boton-linea:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.menu-movil {
+  position: fixed; inset: 64px 0 0 0; z-index: 250; background: var(--piedra);
+  transform: translateY(-8px); opacity: 0; visibility: hidden;
+  transition: transform .35s var(--transicion), opacity .35s;
+  border-top: 1px solid var(--borde);
+}
+.menu-movil.abierto { transform: translateY(0); opacity: 1; visibility: visible; }
+.menu-movil nav { display: flex; flex-direction: column; padding: 2rem clamp(1.25rem,4vw,2.5rem); gap: 1.6rem; }
+.menu-movil a { text-decoration: none; font-family: var(--font-display); font-size: 1.4rem; }
+
+/* ========== 6. Hero / Pórtico ========== */
+.hero { position: relative; height: 100vh; min-height: 620px; overflow: hidden; background: var(--piedra); }
+html.js-motion.gsap-listo .hero { height: 190vh; }
+.hero-pin { position: sticky; top: 0; height: 100vh; min-height: 620px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; }
+
+.hero-cielo { position: absolute; inset: 0; z-index: 0; }
+.hero-patio { position: absolute; left: 0; right: 0; bottom: 0; height: 46%; z-index: 1; }
+.patio-suelo { fill: #DDD2B4; }
+.patio-fondo { fill: #CBBE9C; }
+.patio-losas path { stroke: #C4B78F; stroke-width: 1.4; fill: none; }
+
+.hero-columnata { position: relative; z-index: 2; }
+.hero-fila { width: 100%; height: 52vh; display: block; }
+.columna-grupo { transform-origin: center bottom; }
+.columna-base, .columna-plinto { fill: #B7A97E; }
+.columna-fuste { fill: #E7DEC4; }
+.columna-flautas path { stroke: #C9BC96; stroke-width: 1.3; fill: none; }
+.columna-abaco, .columna-equino { fill: #B7A97E; }
+.columna-collarino { fill: #8C6A34; }
+
+.hero-fronton { position: relative; z-index: 3; margin-top: -2px; }
+.hero-fronton svg { width: 100%; height: clamp(48px, 8vw, 100px); display: block; }
+.fronton-triangulo { fill: #DACCA1; }
+.fronton-cornisa { fill: #B7A97E; }
+
+.hero-arquitrabe {
+  position: relative; z-index: 4; background: var(--bronce-texto); background-image: linear-gradient(180deg, #7A5B2B, #5B421C);
+  padding-block: clamp(.9rem, 2vw, 1.6rem); box-shadow: 0 3px 0 rgba(0,0,0,.18) inset, 0 -3px 0 rgba(255,255,255,.08) inset;
+}
+.hero-inscripcion {
+  text-align: center; font-family: var(--font-display); color: var(--hueso);
+  font-size: clamp(1.1rem, 3vw, 2.3rem); letter-spacing: .08em; text-transform: uppercase;
+  text-shadow: 0 2px 0 rgba(0,0,0,.45), 0 -1px 0 rgba(255,255,255,.12);
+}
+
+.hero-texto { position: absolute; z-index: 5; left: 0; right: 0; bottom: 30%; text-align: center; color: var(--tinta); }
+.hero-antetitulo { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .3em; font-size: .78rem; color: var(--bronce-texto); }
+.hero-lead { font-size: var(--fs-lead); max-width: 44ch; margin-inline: auto; color: var(--tinta); background: rgba(237,231,216,.72); border-radius: var(--radio); padding: .3em .6em; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-top: 1.4rem; }
+
+.hero-scroll { position: absolute; z-index: 5; left: 50%; bottom: 1.4rem; transform: translateX(-50%); text-align: center; color: var(--bronce-texto); }
+.hero-scroll span { display: block; width: 1px; height: 34px; background: var(--bronce-texto); margin: 0 auto .6rem; overflow: hidden; }
+html.js-motion .hero-scroll span::after { content:''; display:block; width:100%; height:100%; background:var(--tinta); animation: bajar 1.8s ease-in-out infinite; }
+@keyframes bajar { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+.hero-scroll p { font-family: var(--font-mono); font-size: .68rem; text-transform: uppercase; letter-spacing: .18em; margin: 0; }
+
+@media (min-width: 640px) { .hero-texto { bottom: 26%; } }
+
+html.js-motion.gsap-listo .hero-texto,
+html.js-motion.gsap-listo .hero-scroll {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity .9s var(--transicion) .15s, transform .9s var(--transicion) .15s;
+}
+html.js-motion.gsap-listo .hero-texto.visible,
+html.js-motion.gsap-listo .hero-scroll.visible { opacity: 1; transform: translateY(0); }
+
+html.bloqueo-scroll { overflow: hidden; }
+
+/* ========== 7. Escalinata ========== */
+.escalinata { background: var(--piedra); }
+.peldanos { margin-top: 3.5rem; display: flex; flex-direction: column; }
+.peldano {
+  display: grid; grid-template-columns: auto 1fr; gap: 1.6rem; align-items: start;
+  padding-block: 1.6rem; border-top: 1px solid var(--borde);
+}
+.peldano:last-child { border-bottom: 1px solid var(--borde); }
+.peldano-marca { display: flex; align-items: center; }
+.peldano-num { font-family: var(--font-mono); font-size: 1rem; color: var(--bronce-texto); border: 1.5px solid var(--bronce-texto); border-radius: 50%; width: 2.6em; height: 2.6em; display: grid; place-items: center; }
+.peldano-cuerpo h3 { font-size: var(--fs-h3); margin-bottom: .45em; }
+.peldano-cuerpo p { color: var(--muted); max-width: 58ch; margin: 0; }
+
+html.js-motion.gsap-listo .peldano { opacity: 0; transform: translateY(28px); transition: opacity .7s var(--transicion), transform .7s var(--transicion); }
+html.js-motion.gsap-listo .peldano.visible { opacity: 1; transform: translateY(0); }
+
+@media (min-width: 720px) {
+  .peldanos { max-width: 62rem; }
+  .peldano { grid-template-columns: 6rem 1fr; }
+}
+
+/* ========== 8. Friso (marquee) ========== */
+.friso { padding-block: 0; background: var(--tinta); border-block: 1px solid var(--borde-oscuro); overflow: hidden; }
+.friso-pista { display: flex; width: max-content; will-change: transform; }
+.friso-grupo { display: flex; align-items: center; gap: 1.4rem; padding: 1.1rem 0; white-space: nowrap; }
+.friso-grupo span { font-family: var(--font-display); font-size: clamp(1rem, 2vw, 1.5rem); letter-spacing: .06em; color: var(--bronce-claro); text-transform: uppercase; }
+.friso-punto { color: var(--verdin-claro) !important; font-size: .7em !important; }
+
+/* ========== 9. Directorio (placas de bronce) ========== */
+.directorio { background: var(--fachada); color: var(--hueso); }
+.placas { margin-top: 3rem; display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--borde-oscuro); border: 1px solid var(--borde-oscuro); }
+.placa { background: var(--fachada); }
+.placa-superficie {
+  padding: 1.5rem 1.6rem; display: flex; flex-direction: column; gap: .3rem;
+  background-image: linear-gradient(160deg, rgba(199,154,82,.07), transparent 60%);
+}
+.placa-nombre { font-family: var(--font-display); font-size: 1.08rem; color: var(--hueso); }
+.placa-cargo { font-family: var(--font-mono); font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--bronce-claro); }
+.placa-area { color: var(--muted-oscuro); font-size: .92rem; }
+.directorio-nota { margin-top: 2rem; color: var(--muted-oscuro); font-size: .92rem; max-width: 50ch; }
+
+html.js-motion.gsap-listo .placa-superficie {
+  clip-path: inset(0 100% 0 0); transition: clip-path .8s var(--transicion);
+}
+html.js-motion.gsap-listo .placa.visible .placa-superficie { clip-path: inset(0 0 0 0); }
+
+@media (min-width: 600px) { .placas { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 980px) { .placas { grid-template-columns: repeat(3, 1fr); } }
+
+/* ========== 10. Alas (galería anclada horizontal) ========== */
+.alas { background: var(--piedra); padding-bottom: 0; }
+.alas-cabecera { padding-bottom: clamp(2rem, 5vw, 3.5rem); }
+.alas-pin { position: relative; overflow: hidden; }
+.alas-pista {
+  display: flex; gap: 1.4rem; padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+  overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 2.5rem;
+}
+.ala {
+  flex: 0 0 min(560px, 84vw); scroll-snap-align: start; background: var(--hueso);
+  border: 1px solid var(--borde); border-radius: var(--radio); padding: 2.2rem 2rem;
+  display: flex; flex-direction: column; gap: .9rem;
+}
+.ala-numero { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .2em; font-size: .74rem; color: var(--verdin-texto); }
+.ala-icono { width: 56px; height: 56px; color: var(--bronce-texto); }
+.ala h3 { font-size: var(--fs-h3); max-width: 22ch; }
+.ala p { color: var(--muted); margin: 0; }
+
+/* Con pin de GSAP: la pista deja de ser scroll manual */
+.alas-pin.pin-activo { height: 100vh; }
+.alas-pin.pin-activo .alas-pista { position: absolute; inset: 0; align-items: center; overflow: visible; padding-bottom: 0; }
+.alas-progreso { height: 3px; background: var(--borde); margin-inline: clamp(1.25rem,4vw,2.5rem); display: none; }
+.alas-pin.pin-activo ~ .alas-progreso { display: block; }
+.alas-progreso span { display: block; height: 100%; width: 0%; background: var(--bronce-texto); }
+
+/* ========== 11. Cifras ========== */
+.cifras { background: var(--tinta); color: var(--hueso); }
+.cifras-grid { margin-top: 3rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.4rem 1.6rem; }
+.cifra { border-top: 1px solid var(--borde-oscuro); padding-top: 1.1rem; }
+.cifra-num { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 4.2rem); color: var(--bronce-claro); font-variant-numeric: tabular-nums; }
+.cifra-sufijo { font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.6rem); color: var(--bronce-claro); }
+.cifra p { margin: .3em 0 0; color: var(--muted-oscuro); max-width: 24ch; }
+@media (min-width: 720px) { .cifras-grid { grid-template-columns: repeat(4, 1fr); } }
+
+/* ========== 12. Testimonios ========== */
+.testimonios { background: var(--piedra); }
+.placas-testimonio { margin-top: 3rem; display: grid; grid-template-columns: 1fr; gap: 1.4rem; }
+.testimonio {
+  margin: 0; background: var(--hueso); border: 1px solid var(--borde); border-left: 4px solid var(--bronce-texto);
+  border-radius: var(--radio); padding: 1.8rem 1.9rem;
+}
+.testimonio p { font-size: 1.05rem; color: var(--tinta); }
+.testimonio footer { font-family: var(--font-mono); font-size: .78rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: .6em; align-items: center; }
+.testimonio-muestra {
+  text-transform: uppercase; letter-spacing: .08em; font-size: .68rem; color: var(--verdin-texto);
+  border: 1px solid var(--verdin-texto); border-radius: 20px; padding: .2em .7em;
+}
+@media (min-width: 900px) { .placas-testimonio { grid-template-columns: repeat(3, 1fr); } }
+
+/* ========== 13. Contacto ========== */
+.contacto { background: var(--fachada); color: var(--hueso); }
+.contacto-grid { display: grid; grid-template-columns: 1fr; gap: 2.6rem; align-items: start; }
+.ficha { margin: 1.8rem 0; display: grid; gap: .9rem; }
+.ficha > div { display: grid; grid-template-columns: 9rem 1fr; gap: .8rem; border-top: 1px solid var(--borde-oscuro); padding-top: .7rem; }
+.ficha dt { font-family: var(--font-mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted-oscuro); }
+.ficha dd { margin: 0; }
+.ficha a { text-decoration: none; border-bottom: 1px solid var(--bronce-claro); }
+
+.mapa-caja { background: rgba(199,154,82,.08); border: 1px dashed var(--bronce-claro); border-radius: var(--radio); padding: 2.4rem; text-align: center; min-height: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; }
+.mapa-boton { display: inline-flex; gap: .6em; align-items: center; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .1em; font-size: .82rem; color: var(--hueso); border: 1.5px solid var(--bronce-claro); border-radius: var(--radio); padding: .9em 1.5em; }
+.mapa-boton svg { width: 20px; height: 20px; }
+.mapa-nota { font-size: .82rem; color: var(--muted-oscuro); max-width: 32ch; margin: 0; }
+.mapa-caja iframe { width: 100%; height: 340px; border: 0; border-radius: var(--radio); }
+
+@media (min-width: 860px) { .contacto-grid { grid-template-columns: 1.1fr .9fr; } }
+
+/* ========== 14. Pie ========== */
+.pie { background: var(--fachada); color: var(--muted-oscuro); border-top: 1px solid var(--borde-oscuro); }
+.pie-grid { display: grid; gap: 2.2rem; padding-block: 3.5rem 2rem; grid-template-columns: 1fr; }
+.pie .marca { color: var(--hueso); margin-bottom: .8rem; }
+.pie .marca-lugar { color: var(--muted-oscuro); }
+.pie-desc { max-width: 32ch; }
+.pie-nav h3, .pie-ficha h3 { font-family: var(--font-mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .14em; color: var(--bronce-claro); margin-bottom: .9rem; }
+.pie-nav { display: flex; flex-direction: column; gap: .6rem; }
+.pie-nav a { text-decoration: none; }
+.pie-nav a:hover, .ficha a:hover { color: var(--hueso); }
+.pie-ficha p { margin: 0 0 .5em; font-size: .92rem; }
+.pie-demo { border-top: 1px solid var(--borde-oscuro); padding-top: 1.4rem; font-size: .88rem; max-width: 70ch; }
+.pie-copy { font-size: .8rem; color: var(--muted-oscuro); padding-bottom: 2rem; }
+@media (min-width: 720px) { .pie-grid { grid-template-columns: 1.3fr .8fr .8fr 1fr; } }
+
+/* ========== 15. Aviso de cookies ========== */
+.cookie-banner {
+  position: fixed; left: 1rem; right: 1rem; bottom: 1rem; z-index: 400;
+  background: var(--tinta); color: var(--hueso); border: 1px solid var(--borde-oscuro);
+  border-radius: var(--radio); padding: 1.1rem 1.3rem; gap: 1rem; align-items: center;
+  max-width: 640px; margin-inline: auto; box-shadow: 0 12px 30px rgba(0,0,0,.25);
+}
+/* Trampa conocida: el display:flex va SOLO en :not([hidden]), nunca en .cookie-banner a secas */
+.cookie-banner:not([hidden]) { display: flex; flex-wrap: wrap; }
+.cookie-banner p { margin: 0; font-size: .88rem; flex: 1 1 240px; }
+.cookie-banner a { color: var(--bronce-claro); }
+
+/* ========== 16. Página 404 ========== */
+.pagina-404 { padding-block: 8rem 6rem; text-align: center; }
+.pagina-404 .titular { max-width: none; margin-inline: auto; }
+.pagina-404-emblema { width: 90px; height: 90px; margin: 0 auto 2rem; color: var(--bronce-texto); }
+
+/* ========== 17. Reducción de movimiento: apagar SOLO el movimiento ========== */
+@media (prefers-reduced-motion: reduce) {
+  html.js-motion.gsap-listo .hero { height: 100vh; }
+  * { scroll-behavior: auto !important; }
+}

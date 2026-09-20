@@ -1,0 +1,16 @@
+{
+  "name": "Valladares Mendoza Abogados",
+  "short_name": "Valladares Mendoza",
+  "description": "Derecho mercantil y de la gran empresa en Vigo. Sitio de demostración ficticio.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#171310",
+  "theme_color": "#EDE7D8",
+  "lang": "es",
+  "icons": [
+    { "src": "assets/img/logo/icon-96.png", "sizes": "96x96", "type": "image/png" },
+    { "src": "assets/img/logo/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/img/logo/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

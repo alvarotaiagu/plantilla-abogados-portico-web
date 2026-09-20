@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<!--
+  Sitio de demostración. Valladares Mendoza Abogados es un negocio ficticio,
+  creado como plantilla de muestra para la biblioteca de WEBS NEGOCIOS. Los
+  datos, el equipo y las opiniones son de muestra: no corresponden a ningún
+  despacho real de Vigo ni de ningún otro lugar.
+-->
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Valladares Mendoza Abogados — Derecho mercantil y de la gran empresa en Vigo</title>
+<meta name="description" content="Despacho de abogados mercantilistas en Vigo. Derecho mercantil y societario, fusiones y adquisiciones, contratación y compliance, arbitraje y litigación mercantil. Sitio de demostración ficticio.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#EDE7D8">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Valladares Mendoza Abogados — Vigo">
+<meta property="og:description" content="Derecho mercantil y societario, M&A, contratación y compliance, arbitraje y litigación mercantil. Sitio de demostración ficticio.">
+<meta property="og:image" content="assets/img/logo/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="es_ES">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/logo/icon-180.png">
+<link rel="manifest" href="manifest.json">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Piazzolla:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+
+<script>
+  /* Bandera de movimiento mínima y bloqueante: decide ANTES de que cargue
+     GSAP si hay que animar, según prefers-reduced-motion. No depende del CDN. */
+  (function () {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce) document.documentElement.classList.add('js-motion');
+  })();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LegalService",
+  "name": "Valladares Mendoza Abogados",
+  "description": "Despacho de abogados especializado en derecho mercantil, societario y de la gran empresa.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Avenida da Concordia, 18, 4º",
+    "addressLocality": "Vigo",
+    "addressRegion": "Pontevedra",
+    "postalCode": "36203",
+    "addressCountry": "ES"
+  },
+  "telephone": "+34986000000",
+  "email": "contacto@valladaresmendoza.example",
+  "areaServed": "Galicia",
+  "priceRange": "Consulta a medida"
+}
+</script>
+</head>
+<body>
+
+<!-- Definiciones SVG compartidas (columnas, capiteles, frontón) -->
+<svg class="defs-compartidas" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="columna" viewBox="0 0 60 260">
+      <rect class="columna-base" x="2" y="242" width="56" height="14" rx="1.5"/>
+      <rect class="columna-plinto" x="8" y="230" width="44" height="12" rx="1"/>
+      <path class="columna-fuste" d="M14 226 C13 168 12 90 15 30 L45 30 C48 90 47 168 46 226 Z"/>
+      <g class="columna-flautas">
+        <path d="M20 34 L18 224"/>
+        <path d="M27.5 32 L26.5 225"/>
+        <path d="M35 32 L35.5 225"/>
+        <path d="M42.5 32 L43.5 225"/>
+      </g>
+      <path class="columna-abaco" d="M6 22 h48 v10 h-48 z"/>
+      <path class="columna-equino" d="M10 22 C10 10 50 10 50 22 Z"/>
+      <circle class="columna-collarino" cx="30" cy="27" r="1.6"/>
+    </symbol>
+    <linearGradient id="grad-cielo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#D9CFB2"/>
+      <stop offset="1" stop-color="#EDE7D8"/>
+    </linearGradient>
+    <linearGradient id="grad-bronce" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#C79A52"/>
+      <stop offset="1" stop-color="#6B4E22"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- Cortina de entrada: portón de bronce de dos hojas que se abre -->
+<div id="cortina" class="cortina" role="presentation" aria-hidden="true">
+  <div class="cortina-hoja cortina-izq">
+    <div class="cortina-relieve"></div>
+  </div>
+  <div class="cortina-hoja cortina-der">
+    <div class="cortina-relieve"></div>
+  </div>
+  <div class="cortina-marca">
+    <span class="cortina-inicial">V</span><span class="cortina-inicial">M</span>
+  </div>
+</div>
+<noscript><style>#cortina{display:none!important;}</style></noscript>
+
+<!-- Cursor personalizado -->
+<div id="cursor" class="cursor" aria-hidden="true"></div>
+
+<a class="salto-contenido" href="#contenido">Saltar al contenido</a>
+
+<header class="cabecera">
+  <div class="container cabecera-fila">
+    <a class="marca" href="#inicio" data-cursor="enlace">
+      <svg class="marca-icono" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+        <use href="#emblema" width="64" height="64"/>
+      </svg>
+      <span class="marca-texto">
+        <span class="marca-nombre">Valladares Mendoza</span>
+        <span class="marca-lugar">Abogados · Vigo</span>
+      </span>
+    </a>
+
+    <nav class="nav-escritorio" aria-label="Navegación principal">
+      <a href="#alas">Áreas de práctica</a>
+      <a href="#directorio">Equipo</a>
+      <a href="#cifras">El despacho</a>
+      <a href="#testimonios">Clientes</a>
+      <a href="#contacto" class="btn btn-bronce btn-pequeno">Contacto</a>
+    </nav>
+
+    <button id="menu-boton" class="menu-boton" aria-expanded="false" aria-controls="menu-movil">
+      <span class="menu-boton-linea"></span>
+      <span class="menu-boton-linea"></span>
+      <span class="menu-boton-linea"></span>
+      <span class="visually-hidden">Abrir menú</span>
+    </button>
+  </div>
+
+  <div id="menu-movil" class="menu-movil" aria-hidden="true">
+    <nav aria-label="Navegación móvil">
+      <a href="#alas">Áreas de práctica</a>
+      <a href="#directorio">Equipo</a>
+      <a href="#cifras">El despacho</a>
+      <a href="#testimonios">Clientes</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <!-- ============ HERO / PÓRTICO ============ -->
+  <section id="inicio" class="hero" aria-label="Portada">
+    <div class="hero-pin">
+      <svg class="hero-cielo" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <rect width="100" height="100" fill="url(#grad-cielo)"/>
+      </svg>
+
+      <svg class="hero-patio" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+        <rect x="0" y="420" width="1200" height="80" class="patio-suelo"/>
+        <path class="patio-fondo" d="M0 420 L0 300 L200 260 L420 300 L620 250 L820 300 L1020 260 L1200 300 L1200 420 Z"/>
+        <g class="patio-losas">
+          <path d="M0 460 L1200 440"/>
+          <path d="M0 500 L1200 480"/>
+        </g>
+      </svg>
+
+      <div class="hero-columnata" id="columnata" role="img" aria-label="Fachada de un pórtico clásico con seis columnas y un arquitrabe">
+        <svg class="hero-fila" viewBox="0 0 1400 320" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
+          <g class="columna-grupo" data-col="0"><use href="#columna" x="20" y="40" width="130" height="280"/></g>
+          <g class="columna-grupo" data-col="1"><use href="#columna" x="240" y="40" width="130" height="280"/></g>
+          <g class="columna-grupo" data-col="2"><use href="#columna" x="460" y="40" width="130" height="280"/></g>
+          <g class="columna-grupo" data-col="3"><use href="#columna" x="680" y="40" width="130" height="280"/></g>
+          <g class="columna-grupo" data-col="4"><use href="#columna" x="900" y="40" width="130" height="280"/></g>
+          <g class="columna-grupo" data-col="5"><use href="#columna" x="1120" y="40" width="130" height="280"/></g>
+        </svg>
+      </div>
+
+      <div class="hero-fronton">
+        <svg viewBox="0 0 1400 110" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
+          <path class="fronton-triangulo" d="M0 110 L700 4 L1400 110 Z"/>
+          <path class="fronton-cornisa" d="M-20 108 L1420 108 L1420 96 L-20 96 Z"/>
+        </svg>
+      </div>
+
+      <div class="hero-arquitrabe">
+        <div class="hero-inscripcion titular-reveal" id="inscripcion">Valladares Mendoza Abogados</div>
+      </div>
+
+      <div class="hero-texto container">
+        <p class="hero-antetitulo">Vigo · desde 1994</p>
+        <p class="hero-lead">Derecho mercantil y societario para la gran empresa gallega: fusiones y adquisiciones, contratación, compliance y litigación, bajo el mismo pórtico.</p>
+        <div class="hero-cta">
+          <a class="btn btn-bronce boton-magnetico" href="#contacto" data-cursor="enlace">Concertar una consulta</a>
+          <a class="btn btn-linea boton-magnetico" href="#alas" data-cursor="enlace">Ver áreas de práctica</a>
+        </div>
+      </div>
+
+      <div class="hero-scroll" aria-hidden="true">
+        <span></span>
+        <p>Desciende el pórtico</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ESCALINATA ============ -->
+  <section id="metodo" class="escalinata" aria-labelledby="metodo-titulo">
+    <div class="container">
+      <p class="etiqueta">Cómo trabajamos</p>
+      <h2 id="metodo-titulo" class="titular titular-reveal">Cuatro tramos hasta la puerta</h2>
+      <p class="lead lead-ancho">Como el que sube la escalinata de un edificio institucional, cada asunto recorre los mismos cuatro tramos antes de llegar a una decisión.</p>
+
+      <ol class="peldanos">
+        <li class="peldano" data-paso="1">
+          <div class="peldano-marca"><span class="peldano-num">01</span></div>
+          <div class="peldano-cuerpo">
+            <h3>Diagnóstico</h3>
+            <p>Escuchamos el asunto, revisamos la documentación societaria y mercantil, y fijamos el objetivo real del cliente antes de mover una coma.</p>
+          </div>
+        </li>
+        <li class="peldano" data-paso="2">
+          <div class="peldano-marca"><span class="peldano-num">02</span></div>
+          <div class="peldano-cuerpo">
+            <h3>Estrategia</h3>
+            <p>Diseñamos el camino jurídico —la vía negociada, la contractual o la contenciosa— con los plazos y los riesgos puestos por escrito.</p>
+          </div>
+        </li>
+        <li class="peldano" data-paso="3">
+          <div class="peldano-marca"><span class="peldano-num">03</span></div>
+          <div class="peldano-cuerpo">
+            <h3>Ejecución</h3>
+            <p>Negociamos, redactamos y cerramos: pactos de socios, contratos, operaciones societarias o el procedimiento que corresponda.</p>
+          </div>
+        </li>
+        <li class="peldano" data-paso="4">
+          <div class="peldano-marca"><span class="peldano-num">04</span></div>
+          <div class="peldano-cuerpo">
+            <h3>Seguimiento</h3>
+            <p>El expediente no se cierra al firmar. Acompañamos la ejecución y revisamos el cumplimiento en el tiempo.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ FRISO ============ -->
+  <section class="friso" aria-label="Friso de máximas jurídicas">
+    <div class="friso-pista" id="friso-pista">
+      <div class="friso-grupo">
+        <span>PACTA SUNT SERVANDA</span>
+        <span class="friso-punto" aria-hidden="true">◆</span>
+        <span>BONA FIDES</span>
+        <span class="friso-punto" aria-hidden="true">◆</span>
+        <span>DURA LEX SED LEX</span>
+        <span class="friso-punto" aria-hidden="true">◆</span>
+        <span>AUDIATUR ET ALTERA PARS</span>
+        <span class="friso-punto" aria-hidden="true">◆</span>
+        <span>UBI SOCIETAS IBI IUS</span>
+        <span class="friso-punto" aria-hidden="true">◆</span>
+        <span>NEMO DAT QUOD NON HABET</span>
+        <span class="friso-punto" aria-hidden="true">◆</span>
+        <span>RES IUDICATA PRO VERITATE HABETUR</span>
+        <span class="friso-punto" aria-hidden="true">◆</span>
+        <span>SUUM CUIQUE</span>
+        <span class="friso-punto" aria-hidden="true">◆</span>
+      </div>
+      <div class="friso-grupo" aria-hidden="true">
+        <span>PACTA SUNT SERVANDA</span>
+        <span class="friso-punto">◆</span>
+        <span>BONA FIDES</span>
+        <span class="friso-punto">◆</span>
+        <span>DURA LEX SED LEX</span>
+        <span class="friso-punto">◆</span>
+        <span>AUDIATUR ET ALTERA PARS</span>
+        <span class="friso-punto">◆</span>
+        <span>UBI SOCIETAS IBI IUS</span>
+        <span class="friso-punto">◆</span>
+        <span>NEMO DAT QUOD NON HABET</span>
+        <span class="friso-punto">◆</span>
+        <span>RES IUDICATA PRO VERITATE HABETUR</span>
+        <span class="friso-punto">◆</span>
+        <span>SUUM CUIQUE</span>
+        <span class="friso-punto">◆</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DIRECTORIO DE BRONCE ============ -->
+  <section id="directorio" class="directorio" aria-labelledby="directorio-titulo">
+    <div class="container">
+      <p class="etiqueta etiqueta-clara">Vestíbulo</p>
+      <h2 id="directorio-titulo" class="titular titular-claro titular-reveal">Directorio</h2>
+      <p class="lead lead-ancho lead-claro">El panel de bronce del vestíbulo, no una foto de estudio: quién lleva cada asunto y con qué respalda su firma.</p>
+
+      <ul class="placas">
+        <li class="placa" data-placa>
+          <div class="placa-superficie">
+            <span class="placa-nombre">Xosé Manuel Valladares Freire</span>
+            <span class="placa-cargo">Socio director</span>
+            <span class="placa-area">Mercantil y societario</span>
+          </div>
+        </li>
+        <li class="placa" data-placa>
+          <div class="placa-superficie">
+            <span class="placa-nombre">Elena Mendoza Barreiro</span>
+            <span class="placa-cargo">Socia</span>
+            <span class="placa-area">Fusiones y adquisiciones</span>
+          </div>
+        </li>
+        <li class="placa" data-placa>
+          <div class="placa-superficie">
+            <span class="placa-nombre">Bruno Otero Sanmartín</span>
+            <span class="placa-cargo">Socio</span>
+            <span class="placa-area">Contratación mercantil y compliance</span>
+          </div>
+        </li>
+        <li class="placa" data-placa>
+          <div class="placa-superficie">
+            <span class="placa-nombre">Carla Figueroa Lens</span>
+            <span class="placa-cargo">Counsel</span>
+            <span class="placa-area">Arbitraje y litigación mercantil</span>
+          </div>
+        </li>
+        <li class="placa" data-placa>
+          <div class="placa-superficie">
+            <span class="placa-nombre">Diego Amoedo Castro</span>
+            <span class="placa-cargo">Asociado senior</span>
+            <span class="placa-area">Derecho societario</span>
+          </div>
+        </li>
+        <li class="placa" data-placa>
+          <div class="placa-superficie">
+            <span class="placa-nombre">Sabela Iglesias Cortón</span>
+            <span class="placa-cargo">Asociada</span>
+            <span class="placa-area">Compliance regulatorio</span>
+          </div>
+        </li>
+      </ul>
+      <p class="directorio-nota">Sin retratos: el despacho se presenta por su trabajo y su firma, no por una fotografía de estudio.</p>
+    </div>
+  </section>
+
+  <!-- ============ ALAS (galería anclada horizontal) ============ -->
+  <section id="alas" class="alas" aria-labelledby="alas-titulo">
+    <div class="alas-cabecera container">
+      <p class="etiqueta">Áreas de práctica</p>
+      <h2 id="alas-titulo" class="titular titular-reveal">Cuatro alas, un mismo pórtico</h2>
+      <p class="lead lead-ancho">Recorre las alas del despacho como quien recorre las salas de un edificio: cada una resuelve un tipo de asunto distinto.</p>
+    </div>
+
+    <div class="alas-pin" id="alas-pin">
+      <div class="alas-pista" id="alas-pista" role="group" aria-label="Áreas de práctica, desplazamiento horizontal">
+        <article class="ala">
+          <div class="ala-numero">Ala I</div>
+          <svg class="ala-icono" viewBox="0 0 120 120" aria-hidden="true"><use href="#icono-societario" width="120" height="120"/></svg>
+          <h3>Derecho mercantil y societario</h3>
+          <p>Constitución y modificación de sociedades, pactos de socios, órganos de administración, ampliaciones y reducciones de capital, y reestructuraciones societarias. Acompañamos a la empresa familiar y al grupo mercantil en cada decisión que afecta a su estructura, desde la junta hasta el registro.</p>
+        </article>
+        <article class="ala">
+          <div class="ala-numero">Ala II</div>
+          <svg class="ala-icono" viewBox="0 0 120 120" aria-hidden="true"><use href="#icono-ma" width="120" height="120"/></svg>
+          <h3>Fusiones y adquisiciones (M&amp;A)</h3>
+          <p><em>Due diligence</em> legal, diseño y negociación del contrato de compraventa, <em>joint ventures</em>, adquisiciones apalancadas e integración posterior al cierre. Coordinamos a los asesores financieros y fiscales para que la operación llegue a término sin sorpresas en las manifestaciones y garantías.</p>
+        </article>
+        <article class="ala">
+          <div class="ala-numero">Ala III</div>
+          <svg class="ala-icono" viewBox="0 0 120 120" aria-hidden="true"><use href="#icono-contratos" width="120" height="120"/></svg>
+          <h3>Contratación mercantil y <em>compliance</em></h3>
+          <p>Contratos de distribución, agencia y suministro, condiciones generales, y programas de cumplimiento normativo con canal de denuncias y protocolo de prevención de delitos. El contrato bien escrito es el litigio que no llega a ocurrir.</p>
+        </article>
+        <article class="ala">
+          <div class="ala-numero">Ala IV</div>
+          <svg class="ala-icono" viewBox="0 0 120 120" aria-hidden="true"><use href="#icono-arbitraje" width="120" height="120"/></svg>
+          <h3>Arbitraje y litigación mercantil</h3>
+          <p>Conflictos entre socios, reclamaciones contractuales, procedimientos arbitrales nacionales e internacionales y ejecución de laudos. Cuando la vía negociada se agota, litigamos con la misma exigencia técnica con la que redactamos.</p>
+        </article>
+      </div>
+    </div>
+    <div class="alas-progreso" aria-hidden="true"><span id="alas-progreso-barra"></span></div>
+  </section>
+
+  <!-- ============ CIFRAS ============ -->
+  <section id="cifras" class="cifras" aria-labelledby="cifras-titulo">
+    <div class="container">
+      <p class="etiqueta etiqueta-clara">El despacho, en cifra</p>
+      <h2 id="cifras-titulo" class="titular titular-claro titular-reveal">Grabado en piedra</h2>
+
+      <div class="cifras-grid">
+        <div class="cifra" data-cuenta="32">
+          <span class="cifra-num" data-num>32</span>
+          <p>años de trayectoria, desde 1994</p>
+        </div>
+        <div class="cifra" data-cuenta="480">
+          <span class="cifra-num" data-num>480</span><span class="cifra-sufijo">+</span>
+          <p>operaciones mercantiles cerradas</p>
+        </div>
+        <div class="cifra" data-cuenta="14">
+          <span class="cifra-num" data-num>14</span>
+          <p>sectores de actividad asesorados</p>
+        </div>
+        <div class="cifra" data-cuenta="120">
+          <span class="cifra-num" data-num>120</span><span class="cifra-sufijo">+</span>
+          <p>empresas en cartera activa</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIOS ============ -->
+  <section id="testimonios" class="testimonios" aria-labelledby="testimonios-titulo">
+    <div class="container">
+      <p class="etiqueta">Clientes</p>
+      <h2 id="testimonios-titulo" class="titular titular-reveal">Tres despachos, tres asuntos</h2>
+      <p class="lead lead-ancho">Testimonios de muestra, escritos para esta plantilla: no corresponden a clientes reales ni están tomados de ninguna plataforma de reseñas.</p>
+
+      <div class="placas-testimonio">
+        <blockquote class="testimonio">
+          <p>«Llevaron la <em>due diligence</em> de la operación en la mitad del tiempo que habíamos previsto, sin bajar el nivel de detalle. Cada informe llegó con la decisión ya tomada, no solo con el riesgo señalado.»</p>
+          <footer>Marta — directora financiera, sector logística <span class="testimonio-muestra">testimonio de muestra</span></footer>
+        </blockquote>
+        <blockquote class="testimonio">
+          <p>«Cerramos un pacto de socios que llevaba dos años bloqueado. Supieron poner sobre la mesa lo que ninguno de los dos socios quería decir en voz alta.»</p>
+          <footer>Ramón — socio fundador, bienes de equipo <span class="testimonio-muestra">testimonio de muestra</span></footer>
+        </blockquote>
+        <blockquote class="testimonio">
+          <p>«El programa de <em>compliance</em> no se quedó en el cajón: lo revisan con nosotros cada año y lo adaptan cuando cambia la normativa, no cuando ya es tarde.»</p>
+          <footer>Noa — responsable jurídica, grupo de distribución <span class="testimonio-muestra">testimonio de muestra</span></footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACTO ============ -->
+  <section id="contacto" class="contacto" aria-labelledby="contacto-titulo">
+    <div class="container contacto-grid">
+      <div class="contacto-texto">
+        <p class="etiqueta etiqueta-clara">Contacto</p>
+        <h2 id="contacto-titulo" class="titular titular-claro titular-reveal">Entra por el pórtico</h2>
+        <p class="lead lead-claro">Primera consulta para valorar el asunto y el camino a seguir, sin compromiso.</p>
+
+        <dl class="ficha">
+          <div><dt>Despacho</dt><dd>Valladares Mendoza Abogados</dd></div>
+          <div><dt>Dirección</dt><dd>Avenida da Concordia, 18, 4º · 36203 Vigo (Pontevedra)</dd></div>
+          <div><dt>Teléfono</dt><dd><a href="tel:+34986000000" class="boton-magnetico" data-cursor="enlace">986 00 00 00</a></dd></div>
+          <div><dt>WhatsApp / móvil</dt><dd><a href="https://wa.me/34600000000" class="boton-magnetico" data-cursor="enlace" target="_blank" rel="noopener">600 00 00 00</a></dd></div>
+          <div><dt>Email</dt><dd><a href="mailto:contacto@valladaresmendoza.example" class="boton-magnetico" data-cursor="enlace">contacto@valladaresmendoza.example</a></dd></div>
+          <div><dt>Horario</dt><dd>Lunes a viernes, 9:00–14:00 y 16:00–19:30</dd></div>
+          <div><dt>CIF</dt><dd>B36000000</dd></div>
+        </dl>
+
+        <a class="btn btn-bronce boton-magnetico" href="mailto:contacto@valladaresmendoza.example" data-cursor="enlace">Escribir al despacho</a>
+      </div>
+
+      <div class="contacto-mapa">
+        <div id="mapa-caja" class="mapa-caja">
+          <button id="mapa-boton" class="mapa-boton" data-cursor="enlace">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icono-mapa" width="24" height="24"/></svg>
+            Mostrar mapa
+          </button>
+          <p class="mapa-nota">El mapa de Google solo se carga si pulsas el botón: sin cookies de terceros antes de tu consentimiento.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <div class="container pie-grid">
+    <div>
+      <a class="marca" href="#inicio">
+        <svg class="marca-icono" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#emblema" width="64" height="64"/></svg>
+        <span class="marca-texto">
+          <span class="marca-nombre">Valladares Mendoza</span>
+          <span class="marca-lugar">Abogados · Vigo</span>
+        </span>
+      </a>
+      <p class="pie-desc">Derecho mercantil, societario y de la gran empresa. Vigo, desde 1994.</p>
+    </div>
+
+    <nav class="pie-nav" aria-label="Enlaces del pie">
+      <h3>Despacho</h3>
+      <a href="#alas">Áreas de práctica</a>
+      <a href="#directorio">Equipo</a>
+      <a href="#cifras">El despacho</a>
+      <a href="#testimonios">Clientes</a>
+    </nav>
+
+    <nav class="pie-nav" aria-label="Enlaces legales">
+      <h3>Legal</h3>
+      <a href="legal.html">Aviso legal</a>
+      <a href="legal.html#privacidad">Privacidad</a>
+      <a href="legal.html#cookies">Cookies</a>
+    </nav>
+
+    <div class="pie-ficha">
+      <h3>Contacto</h3>
+      <p>Avenida da Concordia, 18, 4º<br>36203 Vigo (Pontevedra)</p>
+      <p>986 00 00 00 · contacto@valladaresmendoza.example</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <p class="pie-demo"><strong>Sitio de demostración.</strong> Valladares Mendoza Abogados es un negocio ficticio; los datos, el equipo y las opiniones son de muestra, creados para una biblioteca de plantillas web.</p>
+    <p class="pie-copy">© 2026 Valladares Mendoza Abogados. Plantilla de demostración — WEBS NEGOCIOS.</p>
+  </div>
+</footer>
+
+<!-- Aviso de cookies -->
+<div id="cookie-banner" class="cookie-banner" hidden>
+  <p>Este sitio usa una cookie técnica para recordar que has cerrado este aviso. No se cargan mapas ni cookies de terceros hasta que tú lo pidas. <a href="legal.html#cookies">Más información</a>.</p>
+  <button id="cookie-ok" class="btn btn-bronce btn-pequeno">De acuerdo</button>
+</div>
+
+<!-- Iconos reutilizados -->
+<svg class="defs-compartidas" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="emblema" fill="currentColor">
+      <path d="M32 4 L60 20 L4 20 Z"/>
+      <rect x="8" y="22" width="6" height="30"/>
+      <rect x="27" y="22" width="6" height="30"/>
+      <rect x="46" y="22" width="6" height="30"/>
+      <rect x="4" y="54" width="56" height="6"/>
+    </g>
+    <g id="icono-societario">
+      <rect x="20" y="30" width="80" height="70" rx="2" fill="none" stroke="currentColor" stroke-width="3"/>
+      <path d="M20 46 h80 M40 46 v54 M80 46 v54" stroke="currentColor" stroke-width="3"/>
+      <circle cx="60" cy="20" r="10" fill="none" stroke="currentColor" stroke-width="3"/>
+    </g>
+    <g id="icono-ma">
+      <circle cx="45" cy="60" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+      <circle cx="75" cy="60" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+    </g>
+    <g id="icono-contratos">
+      <rect x="30" y="14" width="60" height="92" rx="3" fill="none" stroke="currentColor" stroke-width="3"/>
+      <path d="M42 36 h36 M42 52 h36 M42 68 h24" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      <path d="M42 90 l10 10 20 -24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <g id="icono-arbitraje">
+      <path d="M60 16 v88" stroke="currentColor" stroke-width="3"/>
+      <path d="M60 30 h-34 l10 24 h48 z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M60 30 h34 l-10 24 h-48 z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" transform="translate(0,0)"/>
+      <rect x="40" y="100" width="40" height="8" rx="1.5" fill="currentColor"/>
+    </g>
+    <g id="icono-mapa">
+      <path d="M12 3 C7 3 3 7 3 12 C3 19 12 21 12 21 C12 21 21 19 21 12 C21 7 17 3 12 3 Z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="12" cy="11.4" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    </g>
+  </defs>
+</svg>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
