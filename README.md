@@ -255,9 +255,54 @@ escalan con `scrollTrigger scrub` mientras la sección queda anclada con
 
 ## Verificación (PLIEGO §7)
 
-Ejecutada con Playwright (Chromium). Ver detalle, capturas y resultado
-exacto en `screenshots/` y en el informe final de la construcción de esta
-plantilla (no se repite aquí para no desincronizarse del resultado real).
+Ejecutada con Playwright (Chromium), primero contra un servidor local y
+después repetida entera contra el sitio ya publicado en GitHub Pages
+(`VM_URL=https://alvarotaiagu.github.io/plantilla-abogados-portico-web/
+node scripts/verify.js`), porque algunas trampas del pliego (`mask-image`,
+rutas relativas) no se manifiestan bajo `file://` ni con un servidor local
+ingenuo. Mismo resultado limpio en ambos pases:
+
+- **1440×900 y 390×844**, con `isMobile`/`hasTouch` reales en la pasada
+  móvil. 28 capturas en `screenshots/` (portada, cada sección, cookies, menú
+  móvil, mapa cargado, 404, legal, pasada sin GSAP y pasada con movimiento
+  reducido), recorridas con `mouse.wheel` (nunca `window.scrollTo`, que no
+  dispara los `ScrollTrigger`/`IntersectionObserver` con Lenis de por medio).
+- **Fotogramas intermedios de la cortina** (`escritorio/movil-00-cortina-
+  media.png`), no solo el estado final, para comprobar que de verdad se
+  levanta.
+- **Consola limpia**: 0 errores y 0 peticiones fallidas fuera de la pasada
+  que bloquea a propósito el CDN de GSAP/Lenis.
+- **GSAP y Lenis bloqueados** (`route.abort()` sobre jsDelivr): `gsap-listo`
+  nunca se activa, la cortina se retira igualmente (por la rama sin GSAP) y
+  la página se lee entera, incluida la inscripción del arquitrabe.
+- **`prefers-reduced-motion: reduce`**: `js-motion` no se activa, la cortina
+  desaparece al instante y las cuatro cifras siguen llegando a su valor
+  final (32/480/14/120+), comprobado leyendo el texto, no solo a ojo.
+- **Cookies**: banner visible en la primera visita, «De acuerdo» lo cierra y
+  guarda `vm-cookies` en `localStorage`.
+- **Menú móvil**: `aria-expanded` alterna `true`/`false` y el panel se abre y
+  se cierra.
+- **Mapa**: 0 `iframe` antes de pulsar «Mostrar mapa», 1 después, apuntando a
+  la dirección ficticia, sin API key.
+- **Sin marcadores pendientes**: se buscó `[PENDIENTE]`, `TODO` y `Lorem
+  ipsum` en el texto renderizado — ninguno presente.
+- Un bug real cazado y corregido antes de publicar: el `<svg
+  class="defs-compartidas">` de símbolos reutilizables se renderizaba con su
+  tamaño por defecto (300×150) dos veces en el flujo del documento,
+  empujando `<main>` ~157px hacia abajo — invisible en escritorio, pero en
+  390px de ancho eso bastaba para sacar la columnata entera del hero fuera
+  del viewport inicial. Corregido con el patrón estándar de sprite SVG
+  oculto (`position:absolute; width:0; height:0`).
+
+**Pendiente de esta plantilla** (igual que el resto de la biblioteca, ver
+`REGISTRO.md`): sin medir `longtask` con `PerformanceObserver` (no lleva
+canvas ni WebGL, el riesgo es bajo, pero no está medido); sin auditoría
+automática de contraste (axe/Lighthouse) — se calculó a mano con
+`scripts/contraste.js`; solo probado en Chromium, sin lector de pantalla
+real.
+
+El script vive en `scripts/verify.js` y escribe también
+`scripts/verify-report.json` con el detalle de cada comprobación.
 
 ## Estructura del repo
 
