@@ -238,23 +238,67 @@
     });
   })();
 
-  /* ---------------- Escalinata: peldaños que aparecen ---------------- */
-  (function initPeldanos() {
-    if (!gsapListo) return;
+  /* ---------------- Escalinata: peldaños que aparecen + marcador que sube ----------------
+     El marcador y el peldaño "activo" son CONTENIDO (el paso en el que estás
+     ahora), no solo movimiento: se actualizan siempre, con o sin GSAP y con
+     movimiento reducido (solo cambia si el desplazamiento es instantáneo o
+     suavizado). Por eso esta función no está gateada por gsapListo entera,
+     a diferencia del resto de reveals de esta sección. */
+  (function initEscalinata() {
     var peldanos = document.querySelectorAll('.peldano');
     if (!peldanos.length) return;
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          io.unobserve(entry.target);
-        }
+
+    if (gsapListo) {
+      var ioReveal = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            ioReveal.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 });
+      peldanos.forEach(function (p, i) {
+        p.style.transitionDelay = (i * 70) + 'ms';
+        ioReveal.observe(p);
       });
-    }, { threshold: 0.3 });
-    peldanos.forEach(function (p, i) {
-      p.style.transitionDelay = (i * 70) + 'ms';
-      io.observe(p);
+    }
+
+    var escalones = document.querySelectorAll('.escalon');
+    var marcador = document.getElementById('escalon-marcador');
+    if (!escalones.length || !marcador) return;
+
+    var posiciones = [];
+    escalones.forEach(function (esc) {
+      var rect = esc.querySelector('rect');
+      if (!rect) return;
+      posiciones.push({
+        x: parseFloat(rect.getAttribute('x')) + parseFloat(rect.getAttribute('width')) / 2,
+        y: parseFloat(rect.getAttribute('y')) - 13
+      });
     });
+    if (!posiciones.length) return;
+
+    var activo = -1;
+    function marcar(indice) {
+      if (indice === activo || indice < 0) return;
+      activo = indice;
+      escalones.forEach(function (e, i) { e.classList.toggle('activo', i <= indice); });
+      peldanos.forEach(function (p, i) { p.classList.toggle('activo', i === indice); });
+      var pos = posiciones[Math.min(indice, posiciones.length - 1)];
+      if (motionOn && gsapListo) {
+        gsap.to(marcador, { attr: { cx: pos.x, cy: pos.y }, duration: .5, ease: 'power2.out' });
+      } else {
+        marcador.setAttribute('cx', pos.x);
+        marcador.setAttribute('cy', pos.y);
+      }
+    }
+
+    var ioPaso = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) marcar(Array.prototype.indexOf.call(peldanos, entry.target));
+      });
+    }, { threshold: 0.5, rootMargin: '-35% 0px -35% 0px' });
+    peldanos.forEach(function (p) { ioPaso.observe(p); });
   })();
 
   /* ---------------- Directorio: placas de bronce que se graban ---------------- */
